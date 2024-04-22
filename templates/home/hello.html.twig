@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+
+{% if name %}
+    <h1>Hello {{ name }}!</h1>
+{% else %}
+    <p>Erreur: le nom est manquant dans l'URL</p>
+{% endif %}
+
+
+{% endblock %}

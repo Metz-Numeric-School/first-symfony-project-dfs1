@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AuthorController!
+{% endblock %}
+
+{% block body %}
+	<div class="container py-5">
+		<div class="row">
+			<div class="col">
+            
+                <div
+                    class="table-responsive"
+                >
+                    <table
+                        class="table"
+                    >
+                        <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Nom</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for author in authors %}
+                            <tr>
+                                <td>{{ author.id }}</td>
+                                <td><a href="{{ path('app_author_show', {'id': author.id }) }}">{{ author.name }}</a></td>
+                            </tr> 
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+            
+            </div>
+		</div>
+
+
+	</div>
+
+
+{% endblock %}
