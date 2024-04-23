@@ -22,9 +22,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_home_about') }}">À propos</a>
                 </li>
+
+
+                {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_home_hello', {'name':'John'}) }}">Bonjour John</a>
-                </li>              
+                    <a class="nav-link" href="{{ path('app_home_hello', {'name':'John'}) }}">Bonjour {{ app.user.firstname }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_author') }}">Auteur.e.s</a>
+                </li>               
+                {% endif %}
+                
             </ul>
         </div>
     </div>
