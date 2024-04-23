@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Author;
+use App\Form\AuthorType;
 use App\Repository\AuthorRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AuthorController extends AbstractController
 {
@@ -20,7 +24,7 @@ class AuthorController extends AbstractController
         ]);
     }
 
-    #[Route('/author/{id}', name: 'app_author_show')]
+    #[Route('/author/show/{id}', name: 'app_author_show')]
     public function show(int $id, AuthorRepository $authorRepository): Response
     {
         $author = $authorRepository->find($id);
@@ -29,20 +33,55 @@ class AuthorController extends AbstractController
         ]);
     }
 
-    public function new(): Response
+    #[Route('/author/new', name: 'app_author_new')]
+    public function new(Request $request, EntityManagerInterface $em): Response
     {
-        return $this->render('author/new.html.twig');
+        $form = $this->createForm(AuthorType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted())
+        {
+            $author = $form->getData();
+            $em->persist($author);
+            $em->flush();
+
+            return $this->redirectToRoute('app_author');
+        }
+
+        return $this->render('author/new.html.twig', [
+            'author_form' => $form->createView(),
+        ]);
     }
 
-    public function edit(): Response
+    #[Route('/author/edit/{id}', name: 'app_author_edit')]
+    public function edit(int $id, Request $request, EntityManagerInterface $em): Response
     {
-        return $this->render('author/edit.html.twig');
+
+        $author = $em->getRepository(Author::class)->find($id);
+
+        $form = $this->createForm(AuthorType::class, $author);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted())
+        {
+            $em->flush();
+            return $this->redirectToRoute('app_author');
+        }
+
+        return $this->render('author/edit.html.twig',[
+            'author_form' => $form->createView(),
+        ]);
     }
 
-    // public function delete(): Response
-    // {
-    //     return 
-    // }
+    #[Route('/author/delete/{id}', name: 'app_author_delete')]
+    public function delete(int $id, EntityManagerInterface $em): Response
+    {
+        $author = $em->getRepository(Author::class)->find($id);
+        $em->remove($author);
+        $em->flush();
+
+        return $this->redirectToRoute('app_author');
+    }
 
 
 

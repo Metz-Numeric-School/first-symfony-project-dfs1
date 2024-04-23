@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout d'un genre{% endblock %}
+
+{% block body %}
+	<div class="container py-5">
+		<div class="row">
+			<div class="col-4">
+                {{ form(genre_form) }}
+            </div>
+		</div>
+	</div>
+{% endblock %}

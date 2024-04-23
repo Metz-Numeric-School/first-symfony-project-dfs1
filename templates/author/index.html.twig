@@ -5,19 +5,28 @@
 
 {% block body %}
 	<div class="container py-5">
+
+        <div class="row align-items-center">
+            <div class="col">
+                <h1>Gestion des auteur.e.s</h1>
+            </div>
+            <div class="col-auto">
+                <a href="{{ path('app_author_new') }}" class="btn btn-primary">Ajouter</a>
+            </div>
+        </div>
 		<div class="row">
 			<div class="col">
-            
                 <div
                     class="table-responsive"
                 >
                     <table
-                        class="table"
+                        class="table table-striped table-bordered"
                     >
                         <thead>
                             <tr>
-                                <th scope="col">Id</th>
+                                <th scope="col" class="fit">Id</th>
                                 <th scope="col">Nom</th>
+                                <th scope="col" class="fit" colspan="2">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -25,18 +34,22 @@
                             <tr>
                                 <td>{{ author.id }}</td>
                                 <td><a href="{{ path('app_author_show', {'id': author.id }) }}">{{ author.name }}</a></td>
+                                <td>
+                                    <a href="{{ path('app_author_edit', {'id': author.id }) }}" class="btn btn-sm btn-outline-secondary">
+                                        Modifier
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ path('app_author_delete', {'id': author.id }) }}" class="btn btn-sm btn-outline-danger">
+                                        Supprimer
+                                    </a>
+                                </td>
                             </tr> 
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
-                
-            
             </div>
 		</div>
-
-
 	</div>
-
-
 {% endblock %}
